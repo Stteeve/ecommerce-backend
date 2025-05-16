@@ -9,6 +9,10 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -18,14 +22,9 @@ jobs:
 
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          region: ${{ secrets.AWS_REGION }}
-
 
       - name: Build and push Docker image
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           ECR_REPOSITORY: my-nest-ecommerce-backend
           IMAGE_TAG: latest
         run: |
