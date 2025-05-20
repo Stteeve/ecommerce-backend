@@ -63,7 +63,7 @@ Resources:
           Image: !Ref ContainerImage
           Essential: true
           PortMappings:
-            - ContainerPort: 3000
+            - ContainerPort: 80
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -96,7 +96,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       VpcId: !Ref VpcId
-      Port: 3000
+      Port: 80
       Protocol: HTTP
       TargetType: ip
       HealthCheckPath: /
@@ -129,7 +129,7 @@ Resources:
       TaskDefinition: !Ref TaskDefinition
       LoadBalancers:
         - ContainerName: app
-          ContainerPort: 3000
+          ContainerPort: 80
           TargetGroupArn: !Ref TargetGroup
 
 Outputs:
