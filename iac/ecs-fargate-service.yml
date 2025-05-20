@@ -1,0 +1,138 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: ECS Fargate Service with ALB and Secrets integration
+
+Parameters:
+  VpcId:
+    Type: String
+    Default: vpc-007ae8dfc55a96aa8
+
+  Subnet1:
+    Type: String
+    Default: subnet-xxxxxx1
+
+  Subnet2:
+    Type: String
+    Default: subnet-xxxxxx2
+
+  SecurityGroupId:
+    Type: String
+    Default: sg-xxxxxx
+
+  ContainerImage:
+    Type: String
+    Default: 387461880611.dkr.ecr.us-east-2.amazonaws.com/my-nest-ecommerce-backend:latest
+
+  SecretName:
+    Type: String
+    Default: ecommerce-backend-secret
+
+Resources:
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+        - arn:aws:iam::aws:policy/SecretsManagerReadWrite
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /ecs/fargate-app
+      RetentionInDays: 7
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      RequiresCompatibilities: [FARGATE]
+      Cpu: 256
+      Memory: 512
+      NetworkMode: awsvpc
+      ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: app
+          Image: !Ref ContainerImage
+          Essential: true
+          PortMappings:
+            - ContainerPort: 3000
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: us-east-2
+              awslogs-stream-prefix: ecs
+          Secrets:
+            - Name: DB_HOST
+              ValueFrom: "arn:aws:secretsmanager:us-east-2:387461880611:secret:ecommerce-backend-secret-frbHAg:DB_HOST::"
+            - Name: DB_PORT
+              ValueFrom: "arn:aws:secretsmanager:us-east-2:387461880611:secret:ecommerce-backend-secret-frbHAg:DB_PORT::"
+            - Name: DB_USERNAME
+              ValueFrom: "arn:aws:secretsmanager:us-east-2:387461880611:secret:ecommerce-backend-secret-frbHAg:DB_USERNAME::"
+            - Name: DB_PASSWORD
+              ValueFrom: "arn:aws:secretsmanager:us-east-2:387461880611:secret:ecommerce-backend-secret-frbHAg:DB_PASSWORD::"
+            - Name: DB_NAME
+              ValueFrom: "arn:aws:secretsmanager:us-east-2:387461880611:secret:ecommerce-backend-secret-frbHAg:DB_NAME::"
+            - Name: JWT_SECRET
+              ValueFrom: "arn:aws:secretsmanager:us-east-2:387461880611:secret:ecommerce-backend-secret-frbHAg:JWT_SECRET::"
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Subnets:
+        - !Ref Subnet1
+        - !Ref Subnet2
+      SecurityGroups:
+        - !Ref SecurityGroupId
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      Port: 3000
+      Protocol: HTTP
+      TargetType: ip
+      HealthCheckPath: /
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  ECSService:
+    Type: AWS::ECS::Service
+    DependsOn: Listener
+    Properties:
+      Cluster: !Ref ECSCluster
+      LaunchType: FARGATE
+      DesiredCount: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets:
+            - !Ref Subnet1
+            - !Ref Subnet2
+          SecurityGroups:
+            - !Ref SecurityGroupId
+      TaskDefinition: !Ref TaskDefinition
+      LoadBalancers:
+        - ContainerName: app
+          ContainerPort: 3000
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+  LoadBalancerDNS:
+    Description: The DNS name of the load balancer
+    Value: !GetAtt LoadBalancer.DNSName
