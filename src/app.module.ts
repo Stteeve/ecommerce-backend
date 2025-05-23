@@ -7,8 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
 import { AppController } from './app.controller';
-import {AppService} from './app.service';
-
+import { AppService } from './app.service';
 
 @Module({
   imports: [
