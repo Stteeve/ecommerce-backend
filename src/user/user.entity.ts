@@ -29,7 +29,7 @@ export class UserEntity {
   @Column({ default: 'Active' })
   status: string;
 
-  @Column({ default: 'user'})
+  @Column({ default: 'user' })
   role: string;
 
   @OneToMany(() => OrderEntity, (order) => order.user)

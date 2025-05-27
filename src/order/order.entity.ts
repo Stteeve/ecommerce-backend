@@ -32,6 +32,9 @@ export class OrderEntity {
   @ManyToOne(() => UserEntity, (user) => user.orders)
   user: UserEntity;
 
-  @OneToMany(() => OrderItemEntity, (item)=>item.order,{ cascade: true, onDelete: 'CASCADE' })
+  @OneToMany(() => OrderItemEntity, (item) => item.order, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   items: OrderItemEntity[];
 }

@@ -19,14 +19,14 @@ export class ProductEntity {
   @Column()
   description: string;
 
-  @Column('decimal',{ precision: 8 })
+  @Column('decimal', { precision: 8 })
   price: number;
 
   @Column({ default: true })
   isActive: boolean;
 
   @Column()
-  stock:number;
+  stock: number;
 
   @CreateDateColumn()
   created_at: Date;

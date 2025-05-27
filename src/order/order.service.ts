@@ -1,16 +1,13 @@
 // src/order/order.service.ts
 
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderEntity } from './order.entity';
 import { OrderItemEntity } from './order-item.entity';
 import { ProductEntity } from '../product/product.entity';
 import { UserEntity } from '../user/user.entity';
-import { OrderCreateDto} from './dto/order-create-dto';
+import { OrderCreateDto } from './dto/order-create-dto';
 
 @Injectable()
 export class OrderService {
@@ -35,7 +32,9 @@ export class OrderService {
       });
 
       if (!product) {
-        throw new NotFoundException(`Product with ID ${item.productId} not found`);
+        throw new NotFoundException(
+          `Product with ID ${item.productId} not found`,
+        );
       }
 
       const subtotal = Number(product.price) * item.quantity;

@@ -21,7 +21,9 @@ export class UserController {
   }
 
   @Post('register-admin')
-  async registerAdmin(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-    return this.userService.registerAdmin((createUserDto))
+  async registerAdmin(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<UserEntity> {
+    return this.userService.registerAdmin(createUserDto);
   }
 }

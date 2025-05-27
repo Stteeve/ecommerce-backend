@@ -73,7 +73,13 @@ describe('ProductService', () => {
   });
 
   it('should update a product', async () => {
-    const existing = { id: 1, name: 'Old', description: 'Old Desc', price: 10, stock: 5 };
+    const existing = {
+      id: 1,
+      name: 'Old',
+      description: 'Old Desc',
+      price: 10,
+      stock: 5,
+    };
     const update: ProductCreateDto = {
       name: 'New',
       description: 'New Desc',

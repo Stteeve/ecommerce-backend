@@ -10,9 +10,15 @@ import { UserEntity } from '../user/user.entity';
 
 describe('OrderService', () => {
   let service: OrderService;
-  let orderRepository: Partial<Record<keyof Repository<OrderEntity>, jest.Mock>>;
-  let orderItemRepository: Partial<Record<keyof Repository<OrderItemEntity>, jest.Mock>>;
-  let productRepository: Partial<Record<keyof Repository<ProductEntity>, jest.Mock>>;
+  let orderRepository: Partial<
+    Record<keyof Repository<OrderEntity>, jest.Mock>
+  >;
+  let orderItemRepository: Partial<
+    Record<keyof Repository<OrderItemEntity>, jest.Mock>
+  >;
+  let productRepository: Partial<
+    Record<keyof Repository<ProductEntity>, jest.Mock>
+  >;
 
   beforeEach(async () => {
     orderRepository = {
@@ -31,8 +37,14 @@ describe('OrderService', () => {
       providers: [
         OrderService,
         { provide: getRepositoryToken(OrderEntity), useValue: orderRepository },
-        { provide: getRepositoryToken(OrderItemEntity), useValue: orderItemRepository },
-        { provide: getRepositoryToken(ProductEntity), useValue: productRepository },
+        {
+          provide: getRepositoryToken(OrderItemEntity),
+          useValue: orderItemRepository,
+        },
+        {
+          provide: getRepositoryToken(ProductEntity),
+          useValue: productRepository,
+        },
       ],
     }).compile();
 

@@ -1,24 +1,24 @@
 
-# 🛒 Ecommerce Backend API
+#  Ecommerce Backend API
 
 A fully functional backend service for an e-commerce platform, built with **NestJS**, **TypeORM**, **PostgreSQL**, and **Docker**, featuring authentication, product management, order processing, role-based access control, and automated CI/CD deployment to **AWS ECS Fargate**.
 
 ---
 
-## 🚀 Features
+##  Features
 
-- 🔐 **Authentication** – JWT login, registration, and role-based guards
-- 📦 **Product Management** – Admins can create, update, delete products
-- 🛍 **Order Processing** – Users can place orders with total price calculation
-- 🧑‍💼 **Role-based Authorization** – Protect admin routes with custom guards
-- 🧪 **Unit Testing** – ≥ 70% coverage using Jest
-- 📦 **Dockerized Development** – `docker-compose` one-click startup
-- ⚙️ **CI/CD** – GitHub Actions for test + deploy to AWS ECS
-- ☁️ **AWS Infra** – ECS Fargate, ALB, RDS, ECR, Secrets Manager via CloudFormation
+-  **Authentication** – JWT login, registration, and role-based guards
+-  **Product Management** – Admins can create, update, delete products
+-  **Order Processing** – Users can place orders with total price calculation
+-  **Role-based Authorization** – Protect admin routes with custom guards
+-  **Unit Testing** – ≥ 70% coverage using Jest
+-  **Dockerized Development** – `docker-compose` one-click startup
+- ️ **CI/CD** – GitHub Actions for test + deploy to AWS ECS
+- ️ **AWS Infra** – ECS Fargate, ALB, RDS, ECR, Secrets Manager via CloudFormation
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 src/
@@ -35,16 +35,16 @@ src/
 
 - Run tests: `npm run test`
 - Run coverage: `npm run test:cov`
-- ✅ **Current Coverage:**  
+-  **Current Coverage:**  
   `Statements: 70.67%`  
   `Lines: 71.62%`  
   `Functions: 67.3%`  
 
 ---
 
-## 🧱 Local Development
+##  Local Development
 
-### 🐳 Docker Setup
+###  Docker Setup
 
 ```bash
 docker-compose up --build
@@ -54,7 +54,7 @@ Includes:
 - `nestjs backend`
 - `PostgreSQL database`
 
-### 🌱 Environment Variables
+###  Environment Variables
 
 Create `.env` based on `.env.example`:
 
@@ -86,7 +86,7 @@ JWT_SECRET=your_jwt_secret
 
 ---
 
-## ☁️ AWS Deployment
+##  AWS Deployment
 
 ### ECS Architecture
 
@@ -140,6 +140,6 @@ Templates stored in `infra/cloudformation/`
 
 ---
 
-## 🧑‍💻 Author
+##  Author
 
 Built by [Hao Shi] – May 2025
