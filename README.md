@@ -31,7 +31,7 @@ src/
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 - Run tests: `npm run test`
 - Run coverage: `npm run test:cov`
@@ -64,12 +64,12 @@ DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 DB_NAME=ecommerce
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=averystronghardtoguesspassword12345
 ```
 
 ---
 
-## 📦 API Endpoints
+##  API Endpoints
 
 | Method | Endpoint             | Description               | Auth         |
 |--------|----------------------|---------------------------|--------------|
