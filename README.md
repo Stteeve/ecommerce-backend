@@ -59,12 +59,12 @@ Includes:
 Create `.env` based on `.env.example`:
 
 ```env
-DB_HOST=localhost
+DB_HOST=localhost          
 DB_PORT=5432
 DB_USERNAME=postgres
-DB_PASSWORD=postgres
+DB_PASSWORD=your_db_password
 DB_NAME=ecommerce
-JWT_SECRET=averystronghardtoguesspassword12345
+JWT_SECRET=your_jwt_secret
 ```
 
 ---
