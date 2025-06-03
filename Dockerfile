@@ -17,4 +17,4 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY package*.json ./
 
 EXPOSE 80
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main.js"]
