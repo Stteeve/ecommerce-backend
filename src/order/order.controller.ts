@@ -11,6 +11,7 @@ import { OrderService } from './order.service';
 import { OrderCreateDto } from './dto/order-create-dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Role } from '../auth/role.decorator';
+import { RoleGuard } from '../auth/role.guard';
 
 @Controller('orders')
 export class OrderController {
@@ -22,7 +23,7 @@ export class OrderController {
     return this.orderService.create(orderCreateDto, req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Role('admin')
   @Get()
   async findAll() {

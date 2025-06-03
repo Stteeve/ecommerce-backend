@@ -19,7 +19,7 @@ import { RoleGuard } from '../auth/role.guard';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Role('admin')
   @Post('create')
   async create(
@@ -38,7 +38,7 @@ export class ProductController {
     return this.productService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Role('admin')
   @Put(':id')
   async update(
@@ -48,7 +48,7 @@ export class ProductController {
     return this.productService.update(id, updateDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Role('admin')
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {

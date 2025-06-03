@@ -36,3 +36,11 @@ jobs:
           IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
+
+      - name: Force ECS to deploy latest image
+        run: |
+            aws ecs update-service \
+              --cluster ecs-fargate-service-ECSCluster-d67XyfRIQs67 \
+              --service ecs-fargate-service-ECSService-MROOMWWSyNDd \
+              --force-new-deployment \
+              --region ${{ secrets.AWS_REGION }}
